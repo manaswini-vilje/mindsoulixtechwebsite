@@ -301,7 +301,7 @@ and powerful digital experiences.
 
 <button
 onClick={()=>navigate("/contact")}
-className="mt-10 bg-[#E10600] px-8 py-4 rounded-lg hover:scale-105 transition"
+className="mt-10 bg-[#E10600] px-8 py-4 rounded-lg hover:scale-105 transition cursor-pointer"
 >
 Get a Quote
 </button>

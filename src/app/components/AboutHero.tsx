@@ -227,7 +227,7 @@ export default function AboutHero() {
           </p>
 
 
-          <button className="hero-btn mt-10 px-8 py-4 rounded-lg bg-[#E10600] text-white font-medium">
+          <button className="hero-btn mt-10 px-8 py-4 rounded-lg bg-[#E10600] text-white font-medium cursor-pointer">
             Explore Our Vision
           </button>
 

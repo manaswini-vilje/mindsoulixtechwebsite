@@ -39,6 +39,7 @@ that evolve with your business and unlock new possibilities.
 className="px-10 py-4 rounded-lg text-white text-lg font-medium
 bg-[#E10600]
 transition-all duration-300
+cursor-pointer
 hover:scale-105
 hover:shadow-[0_0_40px_rgba(255,0,0,0.7)]">
 
