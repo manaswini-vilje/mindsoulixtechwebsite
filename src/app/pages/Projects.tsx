@@ -1,5 +1,5 @@
 import ProjectCarousel from "../components/projects/ProjectsCarousel";
-import { useEffect,  useState } from "react";
+import { useEffect, useState } from "react";
 
 const projects = [
   {
@@ -28,7 +28,7 @@ export default function Projects() {
   };
 
   return (
-    <div className="bg-black text-white overflow-hidden">
+    <div className="bg-[#fff7f7] text-black overflow-hidden">
 
       {/* HERO WRAPPER HEIGHT */}
       <section className="relative h-[160vh]">
@@ -36,23 +36,23 @@ export default function Projects() {
         {/* STICKY HERO */}
         <div className="sticky top-0 h-screen flex items-center justify-center text-center px-6 overflow-hidden">
 
-          {/* MOVING WHITE GRID */}
+          {/* MOVING GRID */}
           <div className="absolute inset-0 grid-bg" />
 
           {/* RED GLOW */}
-          <div className="absolute w-[900px] h-[900px] bg-red-600/30 blur-[220px] rounded-full top-1/3 left-1/2 -translate-x-1/2" />
+          <div className="absolute w-[900px] h-[900px] bg-[#E10600]/20 blur-[220px] rounded-full top-1/3 left-1/2 -translate-x-1/2" />
 
           <div className="relative max-w-4xl">
 
             <h1 className="text-6xl font-bold leading-tight">
               Transforming Ideas Into
               <br />
-              <span className="text-red-500">
+              <span className="text-[#E10600]">
                 Impactful Products
               </span>
             </h1>
 
-            <p className="text-gray-300 mt-6 text-lg">
+            <p className="text-black/60 mt-6 text-lg">
               We build scalable digital systems that redefine industries.
             </p>
 
@@ -61,8 +61,8 @@ export default function Projects() {
 
       </section>
 
-      {/* PROJECT GRID SECTION (slides over hero) */}
-      <section className="relative z-20 bg-black px-10 pt-32 pb-32">
+      {/* PROJECT GRID SECTION */}
+      <section className="relative z-20 bg-[#fff7f7] px-10 pt-32 pb-32">
 
         <ProjectCarousel
           projects={projects}
@@ -79,8 +79,8 @@ export default function Projects() {
         {`
         .grid-bg{
           background-image:
-            linear-gradient(rgba(255,255,255,0.07) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.07) 1px, transparent 1px);
+            linear-gradient(rgba(0,0,0,0.07) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0,0,0,0.07) 1px, transparent 1px);
           background-size: 70px 70px;
           animation: gridMove 25s linear infinite;
         }
@@ -144,10 +144,10 @@ function ClientFeedback() {
 
     <section
       id="client-feedback"
-      className="relative min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-black via-[#120000] to-black text-white overflow-hidden"
+      className="relative min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-[#fff7f7] via-white to-[#fff7f7] text-black overflow-hidden"
     >
 
-      <div className="absolute w-[1000px] h-[1000px] bg-red-600/20 blur-[250px] rounded-full animate-pulse" />
+      <div className="absolute w-[1000px] h-[1000px] bg-[#E10600]/15 blur-[250px] rounded-full animate-pulse" />
 
       <div className="text-center mb-24 relative z-10">
 
@@ -155,7 +155,7 @@ function ClientFeedback() {
           Client Feedback
         </h2>
 
-        <div className="w-40 h-[4px] bg-red-500 mx-auto mt-6" />
+        <div className="w-40 h-[4px] bg-[#E10600] mx-auto mt-6" />
 
       </div>
 
@@ -170,8 +170,8 @@ function ClientFeedback() {
             <div
               key={index}
               className={`absolute transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] 
-              rounded-3xl p-14 w-[520px] backdrop-blur-2xl border border-red-500/40 
-              shadow-[0_0_80px_rgba(255,0,0,0.4)]
+              rounded-3xl p-14 w-[520px] backdrop-blur-2xl border border-[#E10600]/40 
+              shadow-[0_0_60px_rgba(225,6,0,0.25)]
 
               ${
                 position === "center"
@@ -183,23 +183,23 @@ function ClientFeedback() {
 
               style={{
                 background:
-                  "linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03))",
+                  "linear-gradient(145deg, rgba(255,255,255,0.8), rgba(255,255,255,0.5))",
               }}
             >
 
-              <p className="text-gray-200 text-xl leading-relaxed">
+              <p className="text-black/80 text-xl leading-relaxed">
                 “{item.text}”
               </p>
 
-              <div className="text-yellow-400 mt-8 text-2xl">
+              <div className="text-yellow-500 mt-8 text-2xl">
                 ★★★★★
               </div>
 
-              <h4 className="mt-8 text-red-500 font-semibold text-xl">
+              <h4 className="mt-8 text-[#E10600] font-semibold text-xl">
                 {item.name}
               </h4>
 
-              <p className="text-gray-400 text-sm">
+              <p className="text-black/60 text-sm">
                 {item.company}
               </p>
 
