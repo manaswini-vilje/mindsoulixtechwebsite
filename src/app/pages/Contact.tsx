@@ -227,6 +227,7 @@ bg-gradient-to-br from-[#E10600]/15 to-transparent blur-[140px]
               with MindSoulix Tech.
             </motion.p>
 
+<<<<<<< HEAD
             {/* TAGS */}
             <div className="mt-10 flex flex-wrap gap-4">
               {tags.map((tag, i) => (
@@ -243,6 +244,32 @@ hover:border-[#E10600]/40 transition"
                 </motion.div>
               ))}
             </div>
+=======
+
+{/* SCROLLING SERVICES BAR */}
+
+<div className="mt-12 relative overflow-hidden">
+
+<motion.div
+className="flex gap-6 w-max"
+animate={{ x: ["0%", "-50%"] }}
+transition={{
+repeat: Infinity,
+duration: 15,
+ease: "linear"
+}}
+>
+
+{[...tags, ...tags].map((tag,i)=>(
+
+<div
+key={i}
+className="px-6 py-3 whitespace-nowrap rounded-lg border border-black/10
+bg-white text-sm hover:border-[#E10600]/40 transition"
+>
+{tag}
+</div>
+>>>>>>> 867e2ba25bbf0e608c4704b169b77be0a476cafe
 
             <button
               onClick={() =>
@@ -257,12 +284,18 @@ hover:border-[#E10600]/40 transition"
             </button>
           </div>
 
+<<<<<<< HEAD
           {/* RIGHT IMAGE GRID */}
           <div className="relative h-[620px] overflow-hidden">
             <div className="flex gap-6 ml-20 mb-6">
               <img src={images[0]} className="w-[160px] h-[180px] rounded-xl object-cover" />
               <img src={images[1]} className="w-[160px] h-[180px] rounded-xl object-cover" />
             </div>
+=======
+</motion.div>
+
+</div>
+>>>>>>> 867e2ba25bbf0e608c4704b169b77be0a476cafe
 
             <div className="flex gap-6 mb-6">
               <img src={images[2]} className="w-[160px] h-[180px] rounded-xl object-cover" />
@@ -270,6 +303,7 @@ hover:border-[#E10600]/40 transition"
               <img src={images[4]} className="w-[160px] h-[180px] rounded-xl object-cover" />
             </div>
 
+<<<<<<< HEAD
             <div className="flex gap-6 ml-20 mb-6">
               <img src={images[5]} className="w-[160px] h-[180px] rounded-xl object-cover" />
               <img src={images[6]} className="w-[160px] h-[180px] rounded-xl object-cover" />
@@ -458,3 +492,184 @@ hover:border-[#E10600]/40 transition"
     </div>
   );
 }
+=======
+</div>
+
+
+{/* RIGHT IMAGE GRID */}
+
+<div className="relative h-[620px] overflow-hidden">
+
+<div className="flex gap-6 ml-20 mb-6">
+<img src={images[0]} className="w-[160px] h-[180px] rounded-xl object-cover"/>
+<img src={images[1]} className="w-[160px] h-[180px] rounded-xl object-cover"/>
+</div>
+
+<div className="flex gap-6 mb-6">
+<img src={images[2]} className="w-[160px] h-[180px] rounded-xl object-cover"/>
+<img src={images[3]} className="w-[160px] h-[180px] rounded-xl object-cover"/>
+<img src={images[4]} className="w-[160px] h-[180px] rounded-xl object-cover"/>
+</div>
+
+<div className="flex gap-6 ml-20 mb-6">
+<img src={images[5]} className="w-[160px] h-[180px] rounded-xl object-cover"/>
+<img src={images[6]} className="w-[160px] h-[180px] rounded-xl object-cover"/>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+{/* FORM SECTION */}
+
+<section
+id="form"
+ref={contactRef}
+className="w-full py-28 px-10 scroll-mt-32"
+>
+
+<div className="max-w-7xl mx-auto grid grid-cols-2 gap-20 items-start">
+
+
+{/* LEFT TEXT */}
+
+<div>
+
+<h2 className="text-5xl font-semibold leading-tight">
+
+Let’s Talk About Smarter  
+
+<span className="italic text-black/60">
+ Digital Solutions with MindSoulix
+</span>
+
+</h2>
+
+<p className="text-black/60 mt-6 text-lg max-w-md">
+
+Whether you need AI automation, scalable platforms,
+or modern applications, our team is ready to help
+transform your ideas into powerful digital products.
+
+</p>
+
+</div>
+
+
+{/* FORM */}
+
+<div className="rounded-2xl border border-black/10 bg-white p-10 shadow-lg">
+
+<form className="flex flex-col gap-6">
+
+<div>
+
+<label className="text-sm text-black/60">Full Name</label>
+
+<div className="grid grid-cols-2 gap-4 mt-2">
+
+<input
+type="text"
+placeholder="First name"
+className="bg-white border border-black/10 rounded-lg px-4 py-3 focus:border-[#E10600] outline-none"
+/>
+
+<input
+type="text"
+placeholder="Last name"
+className="bg-white border border-black/10 rounded-lg px-4 py-3 focus:border-[#E10600] outline-none"
+/>
+
+</div>
+
+</div>
+
+
+<div>
+
+<label className="text-sm text-black/60">Email Address</label>
+
+<input
+type="email"
+placeholder="Email Address"
+className="mt-2 w-full bg-white border border-black/10 rounded-lg px-4 py-3 focus:border-[#E10600] outline-none"
+/>
+
+</div>
+
+
+<div>
+
+<label className="text-sm text-black/60">Phone Number</label>
+
+<input
+type="tel"
+placeholder="+91 Phone Number"
+className="mt-2 w-full bg-white border border-black/10 rounded-lg px-4 py-3 focus:border-[#E10600] outline-none"
+/>
+
+</div>
+
+
+<div>
+
+<label className="text-sm text-black/60">Topic</label>
+
+<select className="mt-2 w-full bg-white border border-black/10 rounded-lg px-4 py-3 focus:border-[#E10600] outline-none">
+
+<option>General Inquiry</option>
+<option>Web Development</option>
+<option>App Development</option>
+<option>AI Solutions</option>
+<option>Automation</option>
+
+</select>
+
+</div>
+
+
+<div>
+
+<label className="text-sm text-black/60">Message</label>
+
+<textarea
+rows={5}
+placeholder="Your Message"
+className="mt-2 w-full bg-white border border-black/10 rounded-lg px-4 py-3 focus:border-[#E10600] outline-none"
+/>
+
+</div>
+
+
+<label className="flex items-center gap-2 text-sm text-black/60">
+
+<input type="checkbox" className="accent-[#E10600]" />
+
+I agree to be contacted regarding this inquiry.
+
+</label>
+
+
+<button
+type="submit"
+className="bg-[#E10600] hover:bg-red-700 text-white transition px-6 py-3 rounded-lg w-fit font-medium"
+>
+Send Message
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+</section>
+
+</div>
+
+)
+}
+>>>>>>> 867e2ba25bbf0e608c4704b169b77be0a476cafe

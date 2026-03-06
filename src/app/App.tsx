@@ -15,6 +15,7 @@ import Services from "./pages/Services";
 import Projects from "./pages/Projects";
 import Public from "./pages/Public";
 import Contact from "./pages/Contact";
+import GetQuote from "./pages/GetQuote";
 
 function AppContent() {
   return (
@@ -32,6 +33,7 @@ function AppContent() {
           <Route path="/projects" element={<Projects />} />
           <Route path="/public" element={<Public />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/get-quote" element={<GetQuote />} />
         </Routes>
 
       </main>

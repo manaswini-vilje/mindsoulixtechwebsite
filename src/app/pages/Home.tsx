@@ -76,8 +76,8 @@ export default function Home() {
 
             {/* TECH */}
 
-            <h1 className="heroText">
-              <span className="techGradient">Tech</span>
+            <h1 className="heroText text-white">
+              Tech
             </h1>
 
             {/* BEYOND */}

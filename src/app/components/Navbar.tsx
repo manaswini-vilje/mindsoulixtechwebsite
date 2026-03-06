@@ -80,6 +80,7 @@ const menuItems: NavItem[] = [
 ];
 
 export default function Navbar() {
+
   const [hovered, setHovered] = useState<string | null>(null);
   const location = useLocation();
   const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -99,26 +100,30 @@ export default function Navbar() {
   };
 
   return (
+
     <motion.nav
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       className="fixed top-2 left-1/2 -translate-x-1/2 z-[9999]"
     >
+
       {/* OUTER NAVBAR */}
+
       <div
         className="relative px-10 py-3 w-[1250px] rounded-4xl
-        border border-white/20
-        flex items-center
+        border border-white/20 flex items-center justify-between
         shadow-[0_0_25px_rgba(225,6,0,0.25),0_20px_60px_rgba(0,0,0,0.45)]"
         style={{
           background: "rgba(55,47,47,0.88)",
           backdropFilter: "blur(16px)",
         }}
       >
-        {/* smoky red glow */}
+
+        {/* RED SMOKE GLOW */}
+
         <div
-          className="absolute inset-0 pointer-events-none rounded- 4xl"
+          className="absolute inset-0 pointer-events-none rounded-4xl"
           style={{
             background:
               "radial-gradient(circle at 40% 20%, rgba(225,6,0,0.25), transparent 60%)",
@@ -128,6 +133,7 @@ export default function Navbar() {
         />
 
         {/* LOGO */}
+
         <Link to="/" className="flex-shrink-0 relative z-10">
           <img
             src={logoImage}
@@ -136,87 +142,116 @@ export default function Navbar() {
           />
         </Link>
 
-        {/* INNER OUTLINE CONTAINER */}
+        {/* INNER MENU NAVBAR */}
+
         <div
-          className="flex items-center gap-10 ml-36 px-8 py-2 rounded-2xl
+          className="flex items-center gap-8 px-8 py-2 rounded-2xl
           border border-white/15 relative z-10"
           style={{
-            background: "rgba(128, 115, 115, 0.35)",
+            background: "rgba(128,115,115,0.35)",
             backdropFilter: "blur(10px)",
           }}
         >
-          {/* MENU */}
-          <div className="flex items-center gap-8">
-            {menuItems.map((item: NavItem) => (
-              <div
-                key={item.name}
-                className="relative"
-                onMouseEnter={() => handleEnter(item.name)}
-                onMouseLeave={handleLeave}
-              >
-                <Link
-                  to={item.path}
-                  className="text-sm font-medium flex items-center gap-1"
-                >
-                  <span
-                    className={`transition-all duration-300 ${
-                      isActive(item.path)
-                        ? "text-[#E10600]"
-                        : "text-gray-300 hover:text-[#E10600]"
-                    }`}
-                  >
-                    {item.name}
-                  </span>
 
-                  {item.dropdown && (
-                    <ChevronDown size={14} className="text-gray-400" />
-                  )}
-                </Link>
+          {menuItems.map((item: NavItem) => (
 
-                <AnimatePresence>
-                  {hovered === item.name && item.dropdown && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -8 }}
-                      className="absolute top-full left-1/2 -translate-x-1/2 mt-4"
-                      onMouseEnter={() => handleEnter(item.name)}
-                      onMouseLeave={handleLeave}
-                    >
-                      <div className="min-w-[220px] rounded-lg p-4 space-y-3 backdrop-blur-xl bg-[#372f2f]/95 border border-[#E10600]/40">
-                        {item.dropdown.map((drop: DropdownItem) => (
-                          <Link
-                            key={drop.label}
-                            to={drop.path}
-                            className="block text-sm text-gray-300 hover:text-[#E10600] transition-colors duration-300"
-                          >
-                            {drop.label}
-                          </Link>
-                        ))}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            ))}
-          </div>
-
-          {/* CTA BUTTON */}
-          <Link to="/contact">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-5 py-2 rounded-lg text-sm font-semibold whitespace-nowrap
-              bg-[#E10600] text-white
-              shadow-[0_0_18px_rgba(225,6,0,0.6)]
-              hover:shadow-[0_0_28px_rgba(225,6,0,0.8)]
-              transition-all duration-300"
+            <div
+              key={item.name}
+              className="relative"
+              onMouseEnter={() => handleEnter(item.name)}
+              onMouseLeave={handleLeave}
             >
-              Get a Quote
-            </motion.button>
-          </Link>
+
+              <Link
+                to={item.path}
+                className="text-sm font-medium flex items-center gap-1"
+              >
+
+                <span
+                  className={`transition-all duration-300 ${
+                    isActive(item.path)
+                      ? "text-[#E10600]"
+                      : "text-gray-300 hover:text-[#E10600]"
+                  }`}
+                >
+                  {item.name}
+                </span>
+
+                {item.dropdown && (
+                  <ChevronDown size={14} className="text-gray-400" />
+                )}
+
+              </Link>
+
+              <AnimatePresence>
+
+                {hovered === item.name && item.dropdown && (
+
+                  <motion.div
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    className="absolute top-full left-1/2 -translate-x-1/2 mt-4"
+                    onMouseEnter={() => handleEnter(item.name)}
+                    onMouseLeave={handleLeave}
+                  >
+
+                    <div className="min-w-[220px] rounded-lg p-4 space-y-3 backdrop-blur-xl bg-[#372f2f]/95 border border-[#E10600]/40">
+
+                      {item.dropdown.map((drop: DropdownItem) => (
+
+                        <Link
+                          key={drop.label}
+                          to={drop.path}
+                          className="block text-sm text-gray-300 hover:text-[#E10600] transition-colors duration-300"
+                        >
+                          {drop.label}
+                        </Link>
+
+                      ))}
+
+                    </div>
+
+                  </motion.div>
+
+                )}
+
+              </AnimatePresence>
+
+            </div>
+
+          ))}
+
         </div>
+
+        {/* CTA BUTTON (OUTSIDE INNER NAVBAR) */}
+
+        <Link to="/contact" className="relative z-10">
+
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="px-5 py-2 rounded-lg text-sm font-semibold whitespace-nowrap
+            bg-[#E10600] text-white
+            shadow-[0_0_18px_rgba(225,6,0,0.6)]
+            hover:shadow-[0_0_28px_rgba(225,6,0,0.8)]
+            transition-all duration-300"
+          >
+
+<Link to="/get-quote">
+  <button className="bg-[#e10600] text-white px-4 py-2 rounded-2xl">
+    Get a Quote
+  </button>
+</Link>
+
+          </motion.button>
+
+        </Link>
+
       </div>
+
     </motion.nav>
+
   );
+
 }
