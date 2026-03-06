@@ -93,40 +93,36 @@ with MindSoulix Tech.
 </motion.p>
 
 
-{/* TAGS */}
+{/* SCROLLING SERVICES BAR */}
 
-<div className="mt-10 flex flex-wrap gap-4">
-
-{tags.map((tag,i)=>(
+<div className="mt-12 relative overflow-hidden">
 
 <motion.div
+className="flex gap-6 w-max"
+animate={{ x: ["0%", "-50%"] }}
+transition={{
+repeat: Infinity,
+duration: 15,
+ease: "linear"
+}}
+>
+
+{[...tags, ...tags].map((tag,i)=>(
+
+<div
 key={i}
-initial={{opacity:0,y:10}}
-animate={{opacity:1,y:0}}
-transition={{delay:0.3 + i*0.1}}
-className="px-5 py-2 rounded-md border border-black/10
-bg-white backdrop-blur-lg text-sm
-hover:border-[#E10600]/40 transition"
+className="px-6 py-3 whitespace-nowrap rounded-lg border border-black/10
+bg-white text-sm hover:border-[#E10600]/40 transition"
 >
 {tag}
-</motion.div>
+</div>
 
 ))}
 
+</motion.div>
+
 </div>
 
-
-<button
-onClick={() =>
-contactRef.current?.scrollIntoView({
-behavior:"smooth",
-block:"start"
-})
-}
-className="mt-10 bg-[#E10600] text-white px-7 py-3 rounded-lg hover:scale-105 transition"
->
-Start a Project
-</button>
 
 </div>
 
@@ -149,12 +145,6 @@ Start a Project
 <div className="flex gap-6 ml-20 mb-6">
 <img src={images[5]} className="w-[160px] h-[180px] rounded-xl object-cover"/>
 <img src={images[6]} className="w-[160px] h-[180px] rounded-xl object-cover"/>
-</div>
-
-<div className="flex gap-6">
-<img src={images[7]} className="w-[160px] h-[180px] rounded-xl object-cover"/>
-<img src={images[8]} className="w-[160px] h-[180px] rounded-xl object-cover"/>
-<img src={images[9]} className="w-[160px] h-[180px] rounded-xl object-cover"/>
 </div>
 
 </div>

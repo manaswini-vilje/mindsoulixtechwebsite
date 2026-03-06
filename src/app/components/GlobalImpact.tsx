@@ -80,9 +80,6 @@ export default function GlobalImpact() {
 
       {/* VIDEO BACKGROUND */}
 
-      {/* VIDEO BACKGROUND */}
-
-     {/* VIDEO BACKGROUND */}
 
 <div className="absolute inset-0 flex items-end justify-center overflow-hidden pointer-events-none z-0">
 

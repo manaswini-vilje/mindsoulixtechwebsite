@@ -117,7 +117,7 @@ export default function Footer() {
                   >
                     <Link
                       to={link.path}
-                      className="text-sm text-black/60 hover:text-black transition-all duration-300 hover:translate-x-1"
+                      className="text-sm text-black/60 hover:text-red-600 transition-all duration-300 hover:translate-x-1"
                     >
                       {link.name}
                     </Link>
@@ -145,7 +145,7 @@ export default function Footer() {
                   >
                     <Link
                       to={link.path}
-                      className="text-sm text-black/60 hover:text-black transition-all duration-300 hover:translate-x-1"
+                      className="text-sm text-black/60 hover:text-red-600 transition-all duration-300 hover:translate-x-1"
                     >
                       {link.name}
                     </Link>
@@ -204,10 +204,10 @@ export default function Footer() {
             </p>
 
             <div className="flex gap-6">
-              <a href="#" className="hover:text-black transition">
+              <a href="#" className="hover:text-red-600 transition">
                 Privacy Policy
               </a>
-              <a href="#" className="hover:text-black transition">
+              <a href="#" className="hover:text-red-600 transition">
                 Terms of Service
               </a>
             </div>
