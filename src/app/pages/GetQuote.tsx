@@ -252,7 +252,7 @@ export default function GetQuote() {
             />
 
             <button className="w-full bg-[#e10600] text-white py-3 rounded-xl font-medium hover:scale-[1.02] transition cursor-pointer">
-              Request Quote
+              Request Demo
             </button>
 
           </form>
