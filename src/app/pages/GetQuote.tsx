@@ -123,7 +123,7 @@ export default function GetQuote() {
 
           <button
             onClick={scrollToTimeline}
-            className="mt-10 bg-[#e10600] text-white px-10 py-4 rounded-full text-lg font-medium shadow-lg hover:scale-105 transition"
+            className="mt-10 bg-[#e10600] text-white px-10 py-4 rounded-full text-lg font-medium shadow-lg hover:scale-105 transition cursor-pointer"
           >
             Build Now
           </button>
@@ -251,7 +251,7 @@ export default function GetQuote() {
               className="w-full border border-gray-300 rounded-lg p-3 focus:outline-[#e10600]"
             />
 
-            <button className="w-full bg-[#e10600] text-white py-3 rounded-xl font-medium hover:scale-[1.02] transition">
+            <button className="w-full bg-[#e10600] text-white py-3 rounded-xl font-medium hover:scale-[1.02] transition cursor-pointer">
               Request Quote
             </button>
 

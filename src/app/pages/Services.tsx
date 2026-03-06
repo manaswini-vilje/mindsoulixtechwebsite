@@ -24,7 +24,11 @@ and powerful digital experiences.
 
 <button
 onClick={()=>navigate("/contact")}
+<<<<<<< HEAD
 className="mt-10 bg-[#E10600] text-white px-8 py-4 rounded-lg hover:scale-105 transition"
+=======
+className="mt-10 bg-[#E10600] px-8 py-4 rounded-lg hover:scale-105 transition cursor-pointer"
+>>>>>>> origin/test1
 >
 Get a Quote
 </button>

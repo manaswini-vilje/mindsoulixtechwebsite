@@ -239,10 +239,10 @@ export default function Navbar() {
           >
 
 <Link to="/get-quote">
-  <button className="bg-[#e10600] text-white px-4 py-2 rounded-2xl">
-    Get a Quote
+  <button className="bg-[#e10600] text-white px-4 py-2 rounded-2xl cursor-pointer hover:bg-[#e10600]/90 transition">
+    Book Demo
   </button>
-</Link>
+</Link> 
 
           </motion.button>
 
