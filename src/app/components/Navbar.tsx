@@ -226,26 +226,18 @@ export default function Navbar() {
 
         {/* CTA BUTTON (OUTSIDE INNER NAVBAR) */}
 
-        <Link to="/contact" className="relative z-10">
-
-          <motion.button
+        <Link to="/get-quote" className="relative z-10">
+          <motion.span
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="px-5 py-2 rounded-lg text-sm font-semibold whitespace-nowrap
-            bg-[#E10600] text-white
+            className="inline-flex px-5 py-2 rounded-lg text-sm font-semibold whitespace-nowrap
+            bg-[#E10600] text-white cursor-pointer
             shadow-[0_0_18px_rgba(225,6,0,0.6)]
             hover:shadow-[0_0_28px_rgba(225,6,0,0.8)]
             transition-all duration-300"
           >
-
-<Link to="/get-quote">
-  <button className="bg-[#e10600] text-white px-4 py-2 rounded-2xl cursor-pointer hover:bg-[#e10600]/90 transition">
-    Book Demo
-  </button>
-</Link> 
-
-          </motion.button>
-
+            Book Demo
+          </motion.span>
         </Link>
 
       </div>
