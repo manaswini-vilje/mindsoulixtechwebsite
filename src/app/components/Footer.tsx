@@ -1,24 +1,41 @@
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Instagram, Linkedin, Mail, ArrowUpRight } from "lucide-react";
 import logoImage from "@/assets/logo.jpeg";
+import type { MouseEvent } from "react";
 
 export default function Footer() {
 
   const currentYear = new Date().getFullYear();
+  const location = useLocation();
+
+  const handleFooterNavClick = (
+    event: MouseEvent<HTMLAnchorElement>,
+    path: string
+  ) => {
+    if (location.pathname === path) {
+      event.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
 
   const footerLinks = {
     Company: [
-      { name: "About Us", path: "/about" },
-      { name: "Our Services", path: "/services" },
-      { name: "Projects", path: "/projects" },
+      { name:"Home", path :"/" },
+      { name: "About", path: "/about" },
+      { name: "Services", path: "/services" },
+      { name: "Portfolio", path: "/portfolio" },
       { name: "Contact", path: "/contact" },
+      { name: "Careers", path: "/careers" },
     ],
     Services: [
       { name: "Web Development", path: "/services" },
-      { name: "Mobile Apps", path: "/services" },
+      { name: "App Development", path: "/services" },
       { name: "UI/UX Design", path: "/services" },
-      { name: "Cloud Solutions", path: "/services" },
+      { name: "Cloud Intergration", path: "/services" },
+      { name: "Digital Marketing", path: "/services" },
+      { name: "AI & ML Development", path: "/services" },
+      { name: "Software Support", path: "/services" },
     ],
     Connect: [
       { name: "Instagram", icon: Instagram, href: "#" },
@@ -38,7 +55,7 @@ export default function Footer() {
         className="relative w-full border-t border-black/10
                    px-10 md:px-20 py-20 overflow-visible"
         style={{
-          background: "#fff7f7"
+          background: "#f8d9d9"
         }}
       >
 
@@ -117,7 +134,8 @@ export default function Footer() {
                   >
                     <Link
                       to={link.path}
-                      className="text-sm text-black/60 hover:text-red-600 transition-all duration-300 hover:translate-x-1"
+                      onClick={(event) => handleFooterNavClick(event, link.path)}
+                      className="text-sm text-black/60 transition-all duration-300 hover:translate-x-1 hover:text-[#E10600] hover:font-bold"
                     >
                       {link.name}
                     </Link>
@@ -145,7 +163,8 @@ export default function Footer() {
                   >
                     <Link
                       to={link.path}
-                      className="text-sm text-black/60 hover:text-red-600 transition-all duration-300 hover:translate-x-1"
+                      onClick={(event) => handleFooterNavClick(event, link.path)}
+                      className="text-sm text-black/60 transition-all duration-300 hover:translate-x-1 hover:text-[#E10600] hover:font-bold"
                     >
                       {link.name}
                     </Link>
@@ -199,15 +218,15 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-black/40">
 
             <p>
-              © {currentYear} MindSoulix Tech. All rights reserved. Crafted
+              © 2025 MindSoulix Tech. All rights reserved. Crafted
               with <span className="text-red-600">♥</span> and innovation.
             </p>
 
             <div className="flex gap-6">
-              <a href="#" className="hover:text-red-600 transition">
+              <a href="#" className="text-black/70 transition-all duration-300 hover:text-[#E10600] hover:font-bold">
                 Privacy Policy
               </a>
-              <a href="#" className="hover:text-red-600 transition">
+              <a href="#" className="text-black/70 transition-all duration-300 hover:text-[#E10600] hover:font-bold">
                 Terms of Service
               </a>
             </div>

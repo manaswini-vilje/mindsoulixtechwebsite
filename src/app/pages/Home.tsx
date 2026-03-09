@@ -42,6 +42,8 @@ export default function Home() {
   const yParallax = useTransform(scrollY, [0, 600], [0, 120]);
   const videoScale = useTransform(scrollY, [0, 600], [1.05, 1.15]);
 
+  const words = ["Tech", "Beyond", "Logic"];
+
   return (
     <>
 
@@ -62,37 +64,32 @@ export default function Home() {
 
         <div className="absolute inset-0 bg-black/35" />
 
-        <motion.div
-          style={{ y: yParallax }}
-          className="relative z-10 px-24"
-        >
-
           <motion.div
-            initial={{ opacity: 0, y: 80 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
-            className="flex flex-col items-start gap-10"
+            style={{ y: yParallax }}
+            className="relative z-10 px-24"
           >
 
-            {/* TECH */}
-
-            <h1 className="heroText text-white">
-              Tech
-            </h1>
-
-            {/* BEYOND */}
-
-            <h1 className="heroText text-white">
-              Beyond
-            </h1>
-
-            {/* LOGIC */}
-
-            <h1 className="heroText text-white">
-              Logic
-            </h1>
-
-          </motion.div>
+            <div className="flex flex-col items-start gap-10">
+              {words.map((word) => (
+                <h1 key={word} className="heroText text-white">
+                  {Array.from(word).map((char, index) => (
+                    <motion.span
+                      key={`${word}-${char}-${index}`}
+                      initial={{ opacity: 0, y: 28, filter: "blur(6px)" }}
+                      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                      transition={{
+                        duration: 1,
+                        ease: [0.22, 1, 0.36, 1],
+                        delay: index * 0.18
+                      }}
+                      className="inline-block"
+                    >
+                      {char}
+                    </motion.span>
+                  ))}
+                </h1>
+              ))}
+            </div>
 
         </motion.div>
 

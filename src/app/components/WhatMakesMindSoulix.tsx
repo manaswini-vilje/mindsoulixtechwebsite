@@ -1,227 +1,131 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 
-export default function WhatMakesDifferent() {
+const CARD_WIDTH = 420
+const CARD_GAP = 32
+const STEP_SIZE = CARD_WIDTH + CARD_GAP
+const SLIDE_MS = 900
+const AUTO_MS = 3000
 
-  const arrowRef = useRef<HTMLDivElement>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
+const cards = [
+  {
+    title: "AI-First Architecture",
+    text: "Artificial intelligence is embedded at the foundation of every platform we design, enabling systems that continuously learn and evolve with real business data.",
+    image:
+      "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=80"
+  },
+  {
+    title: "Human-Centered Design",
+    text: "Technology should empower people. Our platforms combine intelligent automation with intuitive design to improve clarity, usability, and team productivity.",
+    image:
+      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80"
+  },
+  {
+    title: "Scalable Intelligence Systems",
+    text: "MindSoulix architectures are modular and future-friendly, helping organizations scale capabilities while maintaining performance, security, and reliability.",
+    image:
+      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80"
+  },
+  {
+    title: "Future-Ready Platforms",
+    text: "We build systems prepared for the next generation of digital innovation, designed to adapt quickly to changing technologies and business demands.",
+    image:
+      "https://images.unsplash.com/photo-1518773553398-650c184e0bb3?auto=format&fit=crop&w=1200&q=80"
+  }
+]
+
+const loopCards = [...cards, cards[0]]
+
+export default function WhatMakesMindSoulix() {
+  const [index, setIndex] = useState(0)
+  const [resetting, setResetting] = useState(false)
+  const [isVisible, setIsVisible] = useState(false)
+  const sectionRef = useRef<HTMLElement | null>(null)
 
   useEffect(() => {
+    const target = sectionRef.current
+    if (!target) return
 
-    const cx = 380
-    const cy = 170
-    const rx = 350
-    const ry = 150
-    const rotation = -12 * (Math.PI / 180)
-    const cosR = Math.cos(rotation)
-    const sinR = Math.sin(rotation)
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting)
+      },
+      { threshold: 0.35 }
+    )
 
-    const tMin = Math.PI
-    const tMax = 2 * Math.PI
-    let t = tMin
-    const speed = 0.008
-
-    let rafId: number
-    const animate = () => {
-
-      t += speed
-      if (t >= tMax) t = tMin
-
-      const cos = Math.cos(t)
-      const sin = Math.sin(t)
-
-      const vx = cx + rx * cos * cosR - ry * sin * sinR
-      const vy = cy + rx * cos * sinR + ry * sin * cosR
-
-      const dx = -rx * sin * cosR - ry * cos * sinR
-      const dy = -rx * sin * sinR + ry * cos * cosR
-      const angle = Math.atan2(dy, dx) * (180 / Math.PI)
-
-      if (!arrowRef.current || !containerRef.current) {
-        rafId = requestAnimationFrame(animate)
-        return
-      }
-
-      const cw = containerRef.current.offsetWidth
-      const svgCenterX = cw / 2
-      const svgTop = 60
-      const svgCenterY = svgTop + 170
-
-      const ox = vx - 380
-      const oy = vy - 170
-      const rotX = ox * cosR - oy * sinR
-      const rotY = ox * sinR + oy * cosR
-      const posX = svgCenterX + rotX
-      const posY = svgCenterY + rotY
-
-      arrowRef.current.style.transform =
-        `translate(${posX}px, ${posY}px) translate(-50%,-50%) rotate(${angle}deg)`
-
-      rafId = requestAnimationFrame(animate)
-    }
-
-    rafId = requestAnimationFrame(animate)
-    return () => cancelAnimationFrame(rafId)
-
+    observer.observe(target)
+    return () => observer.disconnect()
   }, [])
 
+  useEffect(() => {
+    if (!isVisible) return
+
+    const timer = window.setInterval(() => {
+      setIndex((prev) => prev + 1)
+    }, AUTO_MS)
+
+    return () => window.clearInterval(timer)
+  }, [isVisible])
+
+  useEffect(() => {
+    if (!isVisible) return
+    if (index !== cards.length) return
+
+    const resetTimer = window.setTimeout(() => {
+      setResetting(true)
+      setIndex(0)
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => setResetting(false))
+      })
+    }, SLIDE_MS)
+
+    return () => window.clearTimeout(resetTimer)
+  }, [index, isVisible])
+
   return (
+    <section ref={sectionRef} className="w-full overflow-hidden bg-[#fff7f7] py-32">
+      <div className="mx-auto max-w-[1480px] px-6">
+        <div className="mx-auto max-w-3xl text-center">
+          <h2 className="text-4xl font-semibold text-black md:text-5xl">
+            What Makes MindSoulix Tech Different
+          </h2>
+          <p className="mt-6 text-gray-600">
+            Our principles guide how we design intelligent systems and build technology that evolves with people.
+          </p>
+        </div>
 
-<section className="relative w-full bg-[#fff7f7] py-32 overflow-hidden">
+        <div className="mt-16 overflow-hidden">
+          <div className="pl-24">
+            <div
+              className="flex gap-8 will-change-transform"
+              style={{
+                transform: `translateX(-${index * STEP_SIZE}px)`,
+                transition: resetting
+                  ? "none"
+                  : "transform 900ms cubic-bezier(0.22, 1, 0.36, 1)"
+              }}
+            >
+              {loopCards.map((card, idx) => (
+                <article
+                  key={`${card.title}-${idx}`}
+                  className="group relative h-[520px] w-[420px] shrink-0 overflow-hidden rounded-[20px] bg-white"
+                >
+                  <img
+                    src={card.image}
+                    alt={card.title}
+                    className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                  />
 
-<div className="max-w-[660px] mx-auto px-6 relative">
-
-{/* HEADING */}
-
-<h2 className="text-center text-5xl font-semibold text-black mb-20">
-What Makes <span className="text-[#E10600]">MindSoulix Tech</span> Different
-</h2>
-
-<div className="relative w-full h-[420px]" ref={containerRef}>
-
-
-{/* ORBIT BACK */}
-
-<svg
-className="absolute left-1/2 top-[60px] -translate-x-1/2 -rotate-[12deg] z-0"
-width="760"
-height="340"
-viewBox="0 0 760 340"
->
-
-<defs>
-
-<linearGradient id="orbitGlow">
-<stop offset="0%" stopColor="white" stopOpacity="0.08"/>
-<stop offset="50%" stopColor="white" stopOpacity="0.8"/>
-<stop offset="100%" stopColor="white" stopOpacity="0.08"/>
-</linearGradient>
-
-</defs>
-
-<ellipse
-cx="380"
-cy="170"
-rx="350"
-ry="150"
-fill="none"
-stroke="url(#orbitGlow)"
-strokeWidth="2"
-/>
-
-</svg>
-
-
-{/* MOVING ARROW */}
-
-<div
-ref={arrowRef}
-className="absolute z-40"
-style={{ left: 0, top: 0 }}
->
-
-<svg width="18" height="18" viewBox="0 0 24 24" fill="#ff2a2a">
-<path d="M2 12 L18 4 L14 12 L18 20 Z"/>
-</svg>
-
-</div>
-
-
-{/* CARDS */}
-
-<div className="relative grid grid-cols-2 gap-x-4 gap-y-6 justify-center z-20">
-
-
-<div className="bg-white border border-black/10 rounded-xl p-6
-w-[250px] h-[210px]
-shadow-[0_0_40px_rgba(255,0,0,0.12)]">
-
-<h3 className="text-black text-lg font-semibold mb-3">
-AI-First Architecture
-</h3>
-
-<p className="text-gray-600 text-sm leading-relaxed">
-Artificial intelligence is embedded at the foundation of every platform we design,
-enabling systems that continuously learn and evolve.
-</p>
-
-</div>
-
-
-<div className="bg-white border border-black/10 rounded-xl p-6
-w-[250px] h-[210px]
-shadow-[0_0_40px_rgba(255,0,0,0.12)]">
-
-<h3 className="text-black text-lg font-semibold mb-3">
-Human-Centered Design
-</h3>
-
-<p className="text-gray-600 text-sm leading-relaxed">
-Technology should empower people. Our systems are built around human creativity,
-decision-making, and real-world workflows.
-</p>
-
-</div>
-
-
-<div className="bg-white border border-black/10 rounded-xl p-6
-w-[250px] h-[210px]
-shadow-[0_0_40px_rgba(255,0,0,0.12)]">
-
-<h3 className="text-black text-lg font-semibold mb-3">
-Scalable Intelligence
-</h3>
-
-<p className="text-gray-600 text-sm leading-relaxed">
-MindSoulix architectures grow with organizations,
-expanding capabilities without compromising performance.
-</p>
-
-</div>
-
-
-<div className="bg-[#fff7f7] border border-black/10 rounded-xl p-6
-w-[250px] h-[210px]
-shadow-[0_0_40px_rgba(255,0,0,0.12)]">
-
-<h3 className="text-black text-lg font-semibold mb-3">
-Future-Ready Platforms
-</h3>
-
-<p className="text-gray-600 text-sm leading-relaxed">
-We build systems designed for the next generation of intelligence,
-prepared for rapid technological evolution.
-</p>
-
-</div>
-
-</div>
-
-
-{/* ORBIT FRONT */}
-
-<svg
-className="absolute left-1/2 top-[60px] -translate-x-1/2 -rotate-[12deg] z-30 pointer-events-none"
-width="760"
-height="340"
-viewBox="0 0 760 340"
->
-
-<path
-d="M30 170 a350 150 0 0 1 700 0"
-fill="none"
-stroke="url(#orbitGlow)"
-strokeWidth="2.2"
-opacity="0.85"
-/>
-
-</svg>
-
-</div>
-
-</div>
-
-</section>
-
-)
-
+                  <div className="absolute bottom-8 left-8 h-[220px] w-[260px] rounded-[18px] bg-white p-6 shadow-[0_10px_30px_rgba(0,0,0,0.12)] transition-all duration-300 group-hover:shadow-[0_16px_42px_rgba(0,0,0,0.18)]">
+                    <div className="mb-3 h-[3px] w-12 rounded-full bg-[#E10600]" />
+                    <h3 className="text-xl font-semibold leading-tight text-black">{card.title}</h3>
+                    <p className="mt-3 text-sm leading-relaxed text-black/70">{card.text}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
 }

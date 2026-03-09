@@ -1,13 +1,38 @@
-import { useState, useRef } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useEffect, useState, useRef, type MouseEvent } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+import {
+  ChevronDown,
+  House,
+  Cpu,
+  ShieldCheck,
+  Handshake,
+  Globe2,
+  Rocket,
+  Code2,
+  Smartphone,
+  CloudCog,
+  Palette,
+  Megaphone,
+  Brain,
+  Wrench,
+  Grid3X3,
+  Landmark,
+  Sprout,
+  LayoutDashboard,
+  Sparkles,
+  Briefcase,
+  MailOpen,
+  ClipboardPen,
+  type LucideIcon
+} from "lucide-react";
 import logoImage from "../../assets/logo.jpeg";
 
 interface DropdownItem {
   label: string;
   path: string;
   desc?: string;
+  icon?: LucideIcon;
 }
 
 interface NavItem {
@@ -21,60 +46,186 @@ const menuItems: NavItem[] = [
     name: "Home",
     path: "/",
     dropdown: [
-      { label: "Overview", path: "/#overview" },
-      { label: "Capabilities", path: "/#services" },
-      { label: "Why MindSoulix Tech", path: "/#why" },
-      { label: "Partnership Model", path: "/#partnership" },
-      { label: "Global Impact", path: "/#impact" },
-      { label: "Launch With Us", path: "/#launch" },
+      {
+        label: "Overview",
+        path: "/#overview",
+        desc: "A quick snapshot of who we are and what we build.",
+        icon: House
+      },
+      {
+        label: "Capabilities",
+        path: "/#services",
+        desc: "Explore our core technology and product strengths.",
+        icon: Cpu
+      },
+      {
+        label: "Why MindSoulix Tech",
+        path: "/#why",
+        desc: "See what makes our delivery model and team stand out.",
+        icon: ShieldCheck
+      },
+      {
+        label: "Partnership Model",
+        path: "/#partnership",
+        desc: "How we collaborate from concept to production.",
+        icon: Handshake
+      },
+      {
+        label: "Global Impact",
+        path: "/#impact",
+        desc: "Real outcomes created across industries and regions.",
+        icon: Globe2
+      },
+      {
+        label: "Launch With Us",
+        path: "/#launch",
+        desc: "Start your next initiative with the right team.",
+        icon: Rocket
+      }
     ],
   },
   {
     name: "About",
     path: "/about",
     dropdown: [
-      { label: "Hero", path: "/about#hero" },
-      { label: "What Drives Us", path: "/about#drives" },
-      { label: "Our Story", path: "/about#story" },
-      { label: "What Makes Us Different", path: "/about#different" },
-      { label: "Schedule a Call", path: "/about#cta" },
+      {
+        label: "Overview",
+        path: "/about#overview",
+        desc: "A clear introduction to MindSoulix and our direction.",
+        icon: LayoutDashboard
+      },
+      {
+        label: "Capabilities",
+        path: "/about#capabilities",
+        desc: "Our strengths across technology, design, and delivery.",
+        icon: Cpu
+      },
+      {
+        label: "Why MindSoulix",
+        path: "/about#why-mindsoulix",
+        desc: "What makes our approach different and high impact.",
+        icon: ShieldCheck
+      },
+      {
+        label: "Partnership Model",
+        path: "/about#partnership-model",
+        desc: "How we collaborate from strategy to execution.",
+        icon: Handshake
+      },
+      {
+        label: "Global Impact",
+        path: "/about#global-impact",
+        desc: "The outcomes we create across products and industries.",
+        icon: Globe2
+      }
     ],
   },
   {
     name: "Services",
     path: "/services",
     dropdown: [
-      { label: "AI Development", path: "/services" },
-      { label: "Web Development", path: "/services" },
-      { label: "Automation Systems", path: "/services" },
-      { label: "Cloud Architecture", path: "/services" },
+      {
+        label: "Web Development",
+        path: "/services#web-development",
+        desc: "Modern, scalable web platforms for business growth.",
+        icon: Code2
+      },
+      {
+        label: "App Development",
+        path: "/services#app-development",
+        desc: "High-performance mobile apps with seamless UX.",
+        icon: Smartphone
+      },
+      {
+        label: "Cloud Integration",
+        path: "/services#cloud-integration",
+        desc: "Cloud-first architecture for resilient operations.",
+        icon: CloudCog
+      },
+      {
+        label: "UI / UX Design",
+        path: "/services#uiux-design",
+        desc: "Design systems and interfaces users love.",
+        icon: Palette
+      },
+      {
+        label: "Digital Marketing",
+        path: "/services#digital-marketing",
+        desc: "Data-driven campaigns that convert and scale.",
+        icon: Megaphone
+      },
+      {
+        label: "AI & ML Development",
+        path: "/services#ai-ml-development",
+        desc: "Intelligent models and automation for real impact.",
+        icon: Brain
+      },
+      {
+        label: "Software Support",
+        path: "/services#software-support",
+        desc: "Reliable maintenance, upgrades, and optimization.",
+        icon: Wrench
+      }
     ],
   },
   {
     name: "Portfolio",
-    path: "/Projects",
+    path: "/portfolio",
     dropdown: [
-      { label: "All Projects", path: "/portfolio" },
-      { label: "AI Platforms", path: "/portfolio" },
-      { label: "Enterprise Systems", path: "/portfolio" },
-      { label: "Startups", path: "/portfolio" },
+      {
+        label: "Our Projects",
+        path: "/portfolio#our-projects",
+        desc: "Explore our interactive project showcase and case highlights.",
+        icon: Grid3X3
+      },
+      {
+        label: "Client Feedback",
+        path: "/portfolio#client-feedback",
+        desc: "Read testimonials and outcomes from real client engagements.",
+        icon: Brain
+      }
     ],
   },
   {
     name: "Careers",
     path: "/careers",
     dropdown: [
-      { label: "Open Positions", path: "/careers" },
-      { label: "Life at MindSoulix", path: "/careers" },
-      { label: "Internships", path: "/careers" },
+      {
+        label: "Careers Overview",
+        path: "/careers#careers-overview",
+        desc: "Explore our mission, culture, and team values.",
+        icon: LayoutDashboard
+      },
+      {
+        label: "Life at MindSoulix",
+        path: "/careers#life-at-mindsoulix",
+        desc: "See how we collaborate, create, and grow together.",
+        icon: Sparkles
+      },
+      {
+        label: "Open Positions",
+        path: "/careers#open-positions",
+        desc: "Browse current roles and opportunities to join us.",
+        icon: Briefcase
+      },
     ],
   },
   {
     name: "Contact",
     path: "/contact",
     dropdown: [
-      { label: "Intro", path: "/contact#hero" },
-      { label: "Start a Project", path: "/contact#form" },
+      {
+        label: "Intro",
+        path: "/contact#hero",
+        desc: "Find the right channel to connect with our team.",
+        icon: MailOpen
+      },
+      {
+        label: "Start a Project",
+        path: "/contact#form",
+        desc: "Share your requirements and get started quickly.",
+        icon: ClipboardPen
+      }
     ],
   },
 ];
@@ -82,13 +233,25 @@ const menuItems: NavItem[] = [
 export default function Navbar() {
 
   const [hovered, setHovered] = useState<string | null>(null);
+  const [scrollingDropdown, setScrollingDropdown] = useState<string | null>(null);
   const location = useLocation();
+  const navigate = useNavigate();
   const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const dropdownScrollTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const isActive = (path: string) =>
-    path === "/"
+  const getBasePath = (path: string) => path.split("#")[0] || "/";
+
+  const isActive = (path: string) => {
+    const basePath = getBasePath(path);
+    return basePath === "/"
       ? location.pathname === "/"
-      : location.pathname.startsWith(path);
+      : location.pathname.startsWith(basePath);
+  };
+
+  const getNavLinkClass = (path: string) =>
+    isActive(path)
+      ? "text-[#E10600] font-bold transition-all duration-300 ease-in-out"
+      : "text-white font-normal hover:text-[#E10600] hover:font-bold transition-all duration-300 ease-in-out";
 
   const handleEnter = (name: string) => {
     if (hoverTimer.current) clearTimeout(hoverTimer.current);
@@ -99,6 +262,57 @@ export default function Navbar() {
     hoverTimer.current = setTimeout(() => setHovered(null), 120);
   };
 
+  const handleMainNavClick = (
+    event: MouseEvent<HTMLAnchorElement>,
+    path: string
+  ) => {
+    setHovered(null);
+    if (location.pathname === path) {
+      event.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  const handleDropdownScroll = (name: string) => {
+    setScrollingDropdown(name);
+    if (dropdownScrollTimer.current) {
+      clearTimeout(dropdownScrollTimer.current);
+    }
+    dropdownScrollTimer.current = setTimeout(() => {
+      setScrollingDropdown((current) => (current === name ? null : current));
+    }, 700);
+  };
+
+  const handleDropdownClick = (
+    event: MouseEvent<HTMLAnchorElement>,
+    drop: DropdownItem
+  ) => {
+    const [targetPath, targetId] = drop.path.split("#");
+    if (!targetId || !targetPath) {
+      setHovered(null);
+      return;
+    }
+
+    event.preventDefault();
+
+    if (location.pathname === targetPath) {
+      document.getElementById(targetId)?.scrollIntoView({ behavior: "smooth" });
+      window.history.replaceState(null, "", `${targetPath}#${targetId}`);
+      setHovered(null);
+      return;
+    }
+
+    navigate(drop.path);
+    setHovered(null);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (hoverTimer.current) clearTimeout(hoverTimer.current);
+      if (dropdownScrollTimer.current) clearTimeout(dropdownScrollTimer.current);
+    };
+  }, []);
+
   return (
 
     <motion.nav
@@ -107,6 +321,50 @@ export default function Navbar() {
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       className="fixed top-2 left-1/2 -translate-x-1/2 z-[9999]"
     >
+      <style>
+        {`
+          .dropdown-container {
+            scrollbar-width: thin;
+            scrollbar-color: transparent transparent;
+          }
+
+          .dropdown-container::-webkit-scrollbar {
+            width: 4px;
+          }
+
+          .dropdown-container::-webkit-scrollbar-track {
+            background: transparent;
+          }
+
+          .dropdown-container::-webkit-scrollbar-thumb {
+            background: transparent;
+            border-radius: 10px;
+            transition: background 180ms ease;
+          }
+
+          .dropdown-container.is-scrolling {
+            scrollbar-color: rgba(255,255,255,0.35) transparent;
+          }
+
+          .dropdown-container.is-scrolling::-webkit-scrollbar-thumb {
+            background: linear-gradient(
+              180deg,
+              rgba(255,255,255,0) 0%,
+              rgba(255,255,255,0.35) 50%,
+              rgba(255,255,255,0) 100%
+            );
+          }
+
+          .dropdown-container.is-scrolling::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(
+              180deg,
+              rgba(255,255,255,0) 0%,
+              rgba(255,255,255,0.5) 50%,
+              rgba(255,255,255,0) 100%
+            );
+          }
+        `}
+      </style>
 
       {/* OUTER NAVBAR */}
 
@@ -164,15 +422,12 @@ export default function Navbar() {
 
               <Link
                 to={item.path}
-                className="text-sm font-medium flex items-center gap-1"
+                onClick={(event) => handleMainNavClick(event, item.path)}
+                className="text-sm flex items-center gap-1"
               >
 
                 <span
-                  className={`transition-all duration-300 ${
-                    isActive(item.path)
-                      ? "text-[#E10600]"
-                      : "text-gray-300 hover:text-[#E10600]"
-                  }`}
+                  className={getNavLinkClass(item.path)}
                 >
                   {item.name}
                 </span>
@@ -196,16 +451,41 @@ export default function Navbar() {
                     onMouseLeave={handleLeave}
                   >
 
-                    <div className="min-w-[220px] rounded-lg p-4 space-y-3 backdrop-blur-xl bg-[#372f2f]/95 border border-[#E10600]/40">
+                    <div
+                      className={`dropdown-container ${
+                        scrollingDropdown === item.name ? "is-scrolling" : ""
+                      } min-w-[360px] max-h-[420px] space-y-1 overflow-y-auto rounded-lg p-4`}
+                      onScroll={() => handleDropdownScroll(item.name)}
+                      style={{
+                        background: "rgba(30, 30, 30, 0.95)",
+                        border: "1px solid rgba(255,255,255,0.08)",
+                        backdropFilter: "blur(10px)"
+                      }}
+                    >
 
                       {item.dropdown.map((drop: DropdownItem) => (
 
                         <Link
                           key={drop.label}
                           to={drop.path}
-                          className="block text-sm text-gray-300 hover:text-[#E10600] transition-colors duration-300"
+                          onClick={(event) => handleDropdownClick(event, drop)}
+                          className="group block cursor-pointer rounded-lg px-3 py-3 transition-all duration-300 hover:bg-white/5"
                         >
-                          {drop.label}
+                          <div className="flex items-start gap-3">
+                            {drop.icon ? (
+                              <drop.icon className="mt-0.5 h-4 w-4 text-white/70 transition-colors duration-300 group-hover:text-[#E10600]" />
+                            ) : null}
+                            <div>
+                              <p className="text-sm font-medium text-white transition-all duration-300 group-hover:text-[#E10600] group-hover:font-bold">
+                                {drop.label}
+                              </p>
+                              {drop.desc ? (
+                                <p className="mt-1 text-xs leading-relaxed text-white/60 transition-colors duration-300 group-hover:text-white/80">
+                                  {drop.desc}
+                                </p>
+                              ) : null}
+                            </div>
+                          </div>
                         </Link>
 
                       ))}

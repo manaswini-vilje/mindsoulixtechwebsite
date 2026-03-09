@@ -1,8 +1,10 @@
-import { useRef } from "react"
+import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function AboutCTA() {
 
- useRef<HTMLCanvasElement>(null)
+ useRef<HTMLCanvasElement>(null);
+ const navigate = useNavigate();
 
 return(
 
@@ -41,7 +43,8 @@ bg-[#E10600]
 transition-all duration-300
 cursor-pointer
 hover:scale-105
-hover:shadow-[0_0_40px_rgba(255,0,0,0.7)]">
+hover:shadow-[0_0_40px_rgba(255,0,0,0.7)]"
+onClick={() => navigate("/contact#form")}>
 
 Schedule a Call
 

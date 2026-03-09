@@ -13,12 +13,14 @@ export default function GlobalImpact() {
 
   const [counts, setCounts] = useState(stats.map(() => 0));
   const [active, setActive] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
   /* ================= SECTION TRIGGER ================= */
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
+        setIsVisible(entry.isIntersecting);
         if (entry.isIntersecting) {
           setActive(true);
         }
@@ -60,6 +62,8 @@ export default function GlobalImpact() {
   /* ================= PARALLAX ================= */
 
   useEffect(() => {
+    if (!isVisible) return;
+
     const handleScroll = () => {
       const video = document.getElementById("globe-video");
       if (!video) return;
@@ -70,7 +74,7 @@ export default function GlobalImpact() {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isVisible]);
 
   return (
     <section

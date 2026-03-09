@@ -35,24 +35,34 @@ useEffect(() => {
 }, [location]);
   return (
     <>
-      <section id="hero">
-        <AboutHero />
+      <section id="overview">
+        <div id="hero">
+          <AboutHero />
+        </div>
       </section>
 
-      <section id="drives">
-        <WhatDrivesMindSoulix />
+      <section id="capabilities">
+        <div id="drives">
+          <WhatDrivesMindSoulix />
+        </div>
       </section>
 
-      <section id="story">
-        <AboutStoryCards />
+      <section id="why-mindsoulix">
+        <div id="story">
+          <AboutStoryCards />
+        </div>
       </section>
 
-      <section id="different">
-        <WhatMakesMindSoulix />
+      <section id="partnership-model">
+        <div id="different">
+          <WhatMakesMindSoulix />
+        </div>
       </section>
 
-      <section id="cta">
-        <AboutCTA />
+      <section id="global-impact">
+        <div id="cta">
+          <AboutCTA />
+        </div>
       </section>
     </>
   )

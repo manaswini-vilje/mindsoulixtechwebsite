@@ -14,6 +14,8 @@ const ComplimentarySection: React.FC = () => {
   const [descText, setDescText] = useState("");
   const [flowStart, setFlowStart] = useState(false);
   const [activeStep, setActiveStep] = useState(-1);
+  const [isVisible, setIsVisible] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
 
   const fullHeading = "1 Year Enterprise-Grade Hosting";
   const fullDesc =
@@ -25,28 +27,7 @@ const ComplimentarySection: React.FC = () => {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          el.classList.add("active");
-
-          let i = 0;
-          const headingInterval = setInterval(() => {
-            setHeadingText(fullHeading.slice(0, i + 1));
-            i++;
-            if (i === fullHeading.length) clearInterval(headingInterval);
-          }, 40);
-
-          setTimeout(() => {
-            let j = 0;
-            const descInterval = setInterval(() => {
-              setDescText(fullDesc.slice(0, j + 1));
-              j++;
-              if (j === fullDesc.length) {
-                clearInterval(descInterval);
-                setFlowStart(true);
-              }
-            }, 20);
-          }, 1500);
-        }
+        setIsVisible(entry.isIntersecting);
       },
       { threshold: 0.3 }
     );
@@ -54,6 +35,43 @@ const ComplimentarySection: React.FC = () => {
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
+
+  useEffect(() => {
+    if (isVisible && !hasStarted) {
+      setHasStarted(true);
+    }
+  }, [isVisible, hasStarted]);
+
+  useEffect(() => {
+    if (!hasStarted) return;
+
+    let i = 0;
+    let descInterval: ReturnType<typeof setInterval> | null = null;
+
+    const headingInterval = setInterval(() => {
+      setHeadingText(fullHeading.slice(0, i + 1));
+      i++;
+      if (i === fullHeading.length) clearInterval(headingInterval);
+    }, 40);
+
+    const descTimeout = setTimeout(() => {
+      let j = 0;
+      descInterval = setInterval(() => {
+        setDescText(fullDesc.slice(0, j + 1));
+        j++;
+        if (j === fullDesc.length) {
+          if (descInterval) clearInterval(descInterval);
+          setFlowStart(true);
+        }
+      }, 20);
+    }, 1500);
+
+    return () => {
+      clearInterval(headingInterval);
+      clearTimeout(descTimeout);
+      if (descInterval) clearInterval(descInterval);
+    };
+  }, [hasStarted, fullHeading, fullDesc]);
 
   useEffect(() => {
     if (!flowStart) return;
@@ -73,11 +91,11 @@ const ComplimentarySection: React.FC = () => {
   return (
     <section
       ref={sectionRef}
-      className="partnership-section relative bg-[#fff7f7] text-black py-36 px-6 md:px-16 overflow-hidden"
+      className={`partnership-section ${hasStarted ? "active" : ""} relative bg-[#fff7f7] text-black py-36 px-6 md:px-16 overflow-hidden`}
     >
 
       {/* RED ENERGY SMOKE */}
-      <div className="absolute inset-0 energy-smoke" />
+      <div className={`absolute inset-0 energy-smoke ${isVisible ? "active" : ""}`} />
 
       <div className="relative max-w-7xl mx-auto grid lg:grid-cols-2 gap-20 items-center">
 
@@ -93,7 +111,7 @@ const ComplimentarySection: React.FC = () => {
           </h2>
 
           <h3 className="sub-heading">
-            1 Year <span className="highlight-free">FREE</span> Hosting Included
+            1 Year <span className={`highlight-free ${isVisible ? "active" : ""}`}>FREE</span> Hosting Included
           </h3>
 
           <p className="description text-black/60">
@@ -134,8 +152,11 @@ const ComplimentarySection: React.FC = () => {
           background:
             radial-gradient(circle at 70% 50%, rgba(225,6,0,0.12) 0%, transparent 60%),
             radial-gradient(circle at 60% 40%, rgba(225,6,0,0.08) 0%, transparent 70%);
-          animation: smokeMove 10s ease-in-out infinite alternate;
           opacity: 0.6;
+        }
+
+        .energy-smoke.active{
+          animation: smokeMove 10s ease-in-out infinite alternate;
         }
 
         @keyframes smokeMove {
@@ -193,6 +214,9 @@ const ComplimentarySection: React.FC = () => {
           position: relative;
           color: #E10600;
           text-shadow: 0 0 12px rgba(225,6,0,0.6);
+        }
+
+        .highlight-free.active{
           animation: freePulse 2s ease-in-out infinite;
         }
 

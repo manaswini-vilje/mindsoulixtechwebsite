@@ -41,6 +41,13 @@ export default function Contact() {
   const [showConfirmPage, setShowConfirmPage] = useState(false);
   const [submittedEmail, setSubmittedEmail] = useState("");
 
+  const handleStartProjectClick = () => {
+    document.getElementById("form")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
+
   useEffect(() => {
     if (location.hash) {
       const el = document.querySelector(location.hash);
@@ -121,30 +128,83 @@ export default function Contact() {
     }
   };
 
+
   const sendEmail = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!validateForm() || !form.current) {
       return;
     }
+    const formElement = form.current;
+
+    setSubmitError("");
+    setIsSubmitting(true);
 
     try {
-      setIsSubmitting(true);
-      setSubmitError("");
-
       await emailjs.sendForm(
         "service_4otxmn7",
         "template_fwj9qhj",
-        form.current,
+        formElement,
         "lHBRl4MN0KpqopTMV"
       );
+
+      const contactSheetWebhook =
+        "https://script.google.com/macros/s/AKfycbzhXJRpN3Cd7er9tooE6Hs1d7V4uDora8Ec_2B77Md3-8sDuXC9PjwQ9XxXM5B9V8Ca/exec";
+      const sheetPayload = {
+        fullName: `${formData.first_name} ${formData.last_name}`.trim(),
+        email: formData.email.trim(),
+        phone: formData.phone.trim(),
+        service: formData.service,
+        message: formData.message.trim(),
+      };
+
+      try {
+        console.info("Contact sheet payload:", sheetPayload);
+
+        const sheetResponse = await fetch(contactSheetWebhook, {
+          method: "POST",
+          body: JSON.stringify(sheetPayload),
+        });
+
+        const rawSheetResponse = await sheetResponse.text();
+        console.info("Contact sheet response:", {
+          ok: sheetResponse.ok,
+          status: sheetResponse.status,
+          statusText: sheetResponse.statusText,
+          body: rawSheetResponse,
+        });
+
+        if (!sheetResponse.ok) {
+          throw new Error(`Sheet webhook HTTP ${sheetResponse.status}: ${rawSheetResponse || sheetResponse.statusText}`);
+        }
+
+        if (rawSheetResponse) {
+          let parsed: { status?: string; message?: string } | null = null;
+          try {
+            parsed = JSON.parse(rawSheetResponse) as { status?: string; message?: string };
+          } catch {
+            parsed = null;
+          }
+
+          if (parsed?.status && parsed.status !== "success") {
+            throw new Error(parsed.message || "Sheet webhook returned non-success status.");
+          }
+        }
+      } catch (sheetError) {
+        console.error("Google Sheet sync failed:", {
+          endpoint: contactSheetWebhook,
+          payload: sheetPayload,
+          error: sheetError,
+        });
+      }
 
       setSubmittedEmail(formData.email.trim());
       setFormData(initialFormData);
       setErrors({});
+      formElement.reset();
       setShowConfirmPage(true);
     } catch (error) {
-      console.error(error);
+      console.log("FAILED...", error);
       setSubmitError("Unable to send your message right now. Please try again.");
     } finally {
       setIsSubmitting(false);
@@ -204,7 +264,7 @@ font-family:'Plus Jakarta Sans',sans-serif;
             <div
               className="absolute w-[600px] h-[600px] rounded-full
 bg-gradient-to-br from-[#E10600]/15 to-transparent blur-[140px]
--left-40 top-10"
+-left-40 top-10 pointer-events-none"
             />
 
             <motion.h1
@@ -245,12 +305,8 @@ hover:border-[#E10600]/40 transition"
             </div>
 
             <button
-              onClick={() =>
-                contactRef.current?.scrollIntoView({
-                  behavior: "smooth",
-                  block: "start",
-                })
-              }
+              type="button"
+              onClick={handleStartProjectClick}
               className="mt-10 bg-[#E10600] text-white px-7 py-3 rounded-lg hover:scale-105 transition cursor-pointer"
             >
               Start a Project

@@ -4,16 +4,20 @@ import ProjectSlide from "./ProjectSlide";
 interface ProjectCarouselProps {
   projects: any[];
   onClientClick: () => void;
+  isActive: boolean;
 }
 
 export default function ProjectCarousel({
   projects,
   onClientClick,
+  isActive,
 }: ProjectCarouselProps) {
   const [index, setIndex] = useState(0);
   const [showBack, setShowBack] = useState(false);
 
   useEffect(() => {
+    if (!isActive) return;
+
     let timeout1: ReturnType<typeof setTimeout>;
     let timeout2: ReturnType<typeof setTimeout>;
   
@@ -36,7 +40,7 @@ export default function ProjectCarousel({
       clearTimeout(timeout2);
       clearInterval(interval);
     };
-  }, [projects.length]);
+  }, [projects.length, isActive]);
 
   return (
     <div className="text-center">
