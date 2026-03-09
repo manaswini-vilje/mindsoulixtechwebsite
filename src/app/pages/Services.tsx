@@ -131,7 +131,7 @@ export default function Services() {
         className="relative flex h-screen items-center justify-center overflow-hidden px-6 text-center"
       >
         <div
-          className="absolute inset-0 scale-[1.03] opacity-13 blur-[1px]"
+          className="absolute inset-0 scale-[1.03] opacity-15 blur-[2px]"
           style={{
             backgroundImage: `url(${serviceHeroBg})`,
             backgroundSize: "cover",

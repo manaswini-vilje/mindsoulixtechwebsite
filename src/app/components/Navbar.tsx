@@ -3,6 +3,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ChevronDown,
+  Menu,
+  X,
   House,
   Cpu,
   ShieldCheck,
@@ -234,6 +236,8 @@ export default function Navbar() {
 
   const [hovered, setHovered] = useState<string | null>(null);
   const [scrollingDropdown, setScrollingDropdown] = useState<string | null>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [expandedMobileDropdown, setExpandedMobileDropdown] = useState<string | null>(null);
   const location = useLocation();
   const navigate = useNavigate();
   const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -290,6 +294,8 @@ export default function Navbar() {
     const [targetPath, targetId] = drop.path.split("#");
     if (!targetId || !targetPath) {
       setHovered(null);
+      setMobileMenuOpen(false);
+      setExpandedMobileDropdown(null);
       return;
     }
 
@@ -299,11 +305,31 @@ export default function Navbar() {
       document.getElementById(targetId)?.scrollIntoView({ behavior: "smooth" });
       window.history.replaceState(null, "", `${targetPath}#${targetId}`);
       setHovered(null);
+      setMobileMenuOpen(false);
+      setExpandedMobileDropdown(null);
       return;
     }
 
     navigate(drop.path);
     setHovered(null);
+    setMobileMenuOpen(false);
+    setExpandedMobileDropdown(null);
+  };
+
+  const toggleMobileDropdown = (name: string) => {
+    setExpandedMobileDropdown((current) => (current === name ? null : name));
+  };
+
+  const getMobileSubmenuId = (name: string) =>
+    `mobile-submenu-${name.toLowerCase().replace(/\s+/g, "-")}`;
+
+  const handleMobileMainNavClick = (
+    event: MouseEvent<HTMLAnchorElement>,
+    path: string
+  ) => {
+    handleMainNavClick(event, path);
+    setMobileMenuOpen(false);
+    setExpandedMobileDropdown(null);
   };
 
   useEffect(() => {
@@ -313,13 +339,31 @@ export default function Navbar() {
     };
   }, []);
 
+  useEffect(() => {
+    setMobileMenuOpen(false);
+    setExpandedMobileDropdown(null);
+  }, [location.pathname, location.hash]);
+
+  useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      setMobileMenuOpen(false);
+      setExpandedMobileDropdown(null);
+    };
+
+    window.addEventListener("keydown", handleEscape);
+    return () => {
+      window.removeEventListener("keydown", handleEscape);
+    };
+  }, []);
+
   return (
 
     <motion.nav
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      className="fixed top-2 left-1/2 -translate-x-1/2 z-[9999]"
+      className="fixed top-2 left-1/2 z-[9999] max-w-[100vw] -translate-x-1/2"
     >
       <style>
         {`
@@ -369,7 +413,8 @@ export default function Navbar() {
       {/* OUTER NAVBAR */}
 
       <div
-        className="relative px-10 py-3 w-[1250px] rounded-4xl
+        className="relative w-[calc(100vw-1rem)] rounded-4xl px-4 py-3
+        md:w-[calc(100vw-2rem)] md:px-6 lg:w-[1250px] lg:px-10
         border border-white/20 flex items-center justify-between
         shadow-[0_0_25px_rgba(225,6,0,0.25),0_20px_60px_rgba(0,0,0,0.45)]"
         style={{
@@ -396,15 +441,14 @@ export default function Navbar() {
           <img
             src={logoImage}
             alt="MindSoulix"
-            className="h-12 w-auto object-contain"
+            className="h-10 w-auto object-contain sm:h-11 md:h-12"
           />
         </Link>
 
         {/* INNER MENU NAVBAR */}
 
         <div
-          className="flex items-center gap-8 px-8 py-2 rounded-2xl
-          border border-white/15 relative z-10"
+          className="relative z-10 hidden items-center gap-4 rounded-2xl border border-white/15 px-4 py-2 md:flex md:gap-5 md:px-5 lg:gap-8 lg:px-8"
           style={{
             background: "rgba(128,115,115,0.35)",
             backdropFilter: "blur(10px)",
@@ -506,12 +550,13 @@ export default function Navbar() {
 
         {/* CTA BUTTON (OUTSIDE INNER NAVBAR) */}
 
-        <Link to="/contact" className="relative z-10">
+        <Link to="/contact" className="relative z-10 hidden md:block">
 
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="px-5 py-2 rounded-lg text-sm font-semibold whitespace-nowrap
+            className="rounded-lg px-3 py-1.5 text-xs font-semibold whitespace-nowrap
+            lg:px-5 lg:py-2 lg:text-sm
             bg-[#E10600] text-white
             shadow-[0_0_18px_rgba(225,6,0,0.6)]
             hover:shadow-[0_0_28px_rgba(225,6,0,0.8)]
@@ -519,7 +564,7 @@ export default function Navbar() {
           >
 
 <Link to="/get-quote">
-  <button className="bg-[#e10600] text-white px-4 py-2 rounded-2xl cursor-pointer hover:bg-[#e10600]/90 transition">
+  <button className="cursor-pointer rounded-2xl bg-[#e10600] px-3 py-1.5 text-xs text-white transition hover:bg-[#e10600]/90 lg:px-4 lg:py-2 lg:text-sm">
     Book Demo
   </button>
 </Link> 
@@ -527,6 +572,142 @@ export default function Navbar() {
           </motion.button>
 
         </Link>
+
+        {/* MOBILE MENU TOGGLE */}
+
+        <button
+          type="button"
+          className="relative z-10 inline-flex h-10 w-10 items-center justify-center rounded-lg border border-white/20 text-white transition-colors duration-300 hover:border-[#E10600] hover:text-[#E10600] md:hidden"
+          onClick={() => {
+            setMobileMenuOpen((current) => {
+              const next = !current;
+              if (!next) {
+                setExpandedMobileDropdown(null);
+              }
+              return next;
+            });
+          }}
+          aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+          aria-expanded={mobileMenuOpen}
+          aria-controls="mobile-navbar-menu"
+        >
+          {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
+        </button>
+
+        {/* MOBILE MENU */}
+
+        <AnimatePresence>
+          {mobileMenuOpen ? (
+            <motion.div
+              id="mobile-navbar-menu"
+              initial={{ opacity: 0, y: -10, height: 0 }}
+              animate={{ opacity: 1, y: 0, height: "auto" }}
+              exit={{ opacity: 0, y: -10, height: 0 }}
+              transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute left-0 right-0 top-full z-20 mt-2 overflow-hidden rounded-3xl border border-white/20 md:hidden"
+              style={{
+                background: "rgba(55,47,47,0.94)",
+                backdropFilter: "blur(16px)"
+              }}
+            >
+              <div className="max-h-[70vh] space-y-2 overflow-y-auto p-3">
+                {menuItems.map((item: NavItem) => {
+                  const isExpanded = expandedMobileDropdown === item.name;
+                  const submenuId = getMobileSubmenuId(item.name);
+                  const hasDropdown = Boolean(item.dropdown?.length);
+
+                  return (
+                    <div
+                      key={item.name}
+                      className="rounded-xl border border-white/10 bg-white/[0.02]"
+                    >
+                      <div className="flex items-center">
+                        <Link
+                          to={item.path}
+                          onClick={(event) => handleMobileMainNavClick(event, item.path)}
+                          className={`flex-1 px-4 py-3 text-sm transition-colors duration-300 ${
+                            isActive(item.path)
+                              ? "font-bold text-[#E10600]"
+                              : "text-white hover:text-[#E10600]"
+                          }`}
+                        >
+                          {item.name}
+                        </Link>
+
+                        {hasDropdown ? (
+                          <button
+                            type="button"
+                            className="mr-1 inline-flex h-10 w-10 items-center justify-center rounded-lg text-white/80 transition-colors duration-300 hover:text-[#E10600]"
+                            onClick={() => toggleMobileDropdown(item.name)}
+                            aria-label={`Toggle ${item.name} submenu`}
+                            aria-expanded={isExpanded}
+                            aria-controls={submenuId}
+                          >
+                            <ChevronDown
+                              size={18}
+                              className={`transition-transform duration-300 ${
+                                isExpanded ? "rotate-180" : ""
+                              }`}
+                            />
+                          </button>
+                        ) : null}
+                      </div>
+
+                      <AnimatePresence initial={false}>
+                        {hasDropdown && isExpanded ? (
+                          <motion.div
+                            id={submenuId}
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                            className="overflow-hidden px-2 pb-2"
+                          >
+                            <div className="space-y-1 rounded-lg border border-white/10 bg-black/20 p-1.5">
+                              {item.dropdown?.map((drop: DropdownItem) => (
+                                <Link
+                                  key={drop.label}
+                                  to={drop.path}
+                                  onClick={(event) => handleDropdownClick(event, drop)}
+                                  className="group flex min-h-12 items-start gap-3 rounded-lg px-3 py-3 transition-all duration-300 hover:bg-white/10"
+                                >
+                                  {drop.icon ? (
+                                    <drop.icon className="mt-0.5 h-4 w-4 flex-shrink-0 text-white/70 transition-colors duration-300 group-hover:text-[#E10600]" />
+                                  ) : null}
+                                  <div className="min-w-0">
+                                    <p className="text-sm font-medium text-white transition-colors duration-300 group-hover:text-[#E10600]">
+                                      {drop.label}
+                                    </p>
+                                    {drop.desc ? (
+                                      <p className="mt-1 text-xs leading-relaxed text-white/65">
+                                        {drop.desc}
+                                      </p>
+                                    ) : null}
+                                  </div>
+                                </Link>
+                              ))}
+                            </div>
+                          </motion.div>
+                        ) : null}
+                      </AnimatePresence>
+                    </div>
+                  );
+                })}
+
+                <Link
+                  to="/get-quote"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    setExpandedMobileDropdown(null);
+                  }}
+                  className="mt-2 flex min-h-12 items-center justify-center rounded-2xl bg-[#e10600] px-4 py-3 text-sm font-semibold text-white shadow-[0_0_18px_rgba(225,6,0,0.6)] transition-all duration-300 hover:bg-[#e10600]/90 hover:shadow-[0_0_28px_rgba(225,6,0,0.8)]"
+                >
+                  Book Demo
+                </Link>
+              </div>
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
 
       </div>
 
